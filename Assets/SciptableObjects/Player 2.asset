@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab65ade3b6f2b414fad5d16e6e3b9c03, type: 3}
   m_Name: Player 2
   m_EditorClassIdentifier: 
-  playerHealth: 0
-  playerSpeed: 0
-  playerRotationSpeed: 0
+  playerName: Akimbo
+  playerHealth: 11
+  playerSpeed: 5
+  playerRotationSpeed: 5
   playerId: 0
