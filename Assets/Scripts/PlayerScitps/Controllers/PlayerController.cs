@@ -21,7 +21,6 @@ public class PlayerController : MonoBehaviour, IDataPersistance
         _injector = new Injector();
         PlayerCount++;
         _playerIndex = PlayerCount;
-        Debug.Log(PlayerCount);
     }
     private void Start()
     {
@@ -40,7 +39,6 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     public void LoadData(GameData gameData)
     {
         transform.position = new Vector3(gameData.playerPosX[_playerIndex], gameData.playerPosY[_playerIndex], gameData.playerPosZ[_playerIndex]);
-        Debug.Log(transform.position);
     }
 
     public void SaveData(ref GameData gameData)
