@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    [field: SerializeField] public List<Player> playerList { get; private set; }
-    [field: SerializeField] public Player _currentPlayer { get; private set; }
+    //[field: SerializeField] public List<Player> playerList { get; private set; }
+    [field: SerializeField] public PlayerController[] playerArray { get; private set; }
+    [field: SerializeField] public PlayerController _currentPlayer { get; private set; }
 
     private PlayerChanger _playerChanger;
 
@@ -16,31 +17,23 @@ public class PlayerManager : MonoBehaviour
         PlayerActive(_currentPlayer);
 
     }
-    private void OnEnable()
-    {
-    }
     private void OnDisable()
     {
         _playerChanger.OnPlayerChange -= PlayerActive;
-
-    }
-    private void Update()
-    {
-
     }
 
-    private void PlayerActive(Player activePlayerController)
+    private void PlayerActive(PlayerController activePlayerController)
     {
         if (activePlayerController != null)
         {
             _currentPlayer = activePlayerController;
             _currentPlayer.enabled = true;
-            foreach (var player in playerList)
+            foreach (var player in playerArray)
             {
                 if (player != _currentPlayer)
                     player.enabled = false;
             }
-            Debug.Log($"{_currentPlayer.playerData.playerName} activated");
+            //Debug.Log($"{_currentPlayer.playerData.playerName} activated");
         }
     }
 }

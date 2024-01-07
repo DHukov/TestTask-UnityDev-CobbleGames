@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class PlayerChanger : MonoBehaviour
 {
-    public delegate void ActivePlayerHandler(Player playerController);
+    public delegate void ActivePlayerHandler(PlayerController playerController);
     public event ActivePlayerHandler OnPlayerChange;
 
-    public void PlayerSwitch(Player playerController)
+    public void PlayerSwitch(PlayerController playerController)
     {
         OnPlayerChange?.Invoke(playerController);
     }

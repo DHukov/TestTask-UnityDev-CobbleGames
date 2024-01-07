@@ -2,7 +2,7 @@
 
 public class AStarMouseController : IMoveController
 {
-    public void Move(Player playerController, CharacterController characterController, int speed)
+    public void Move(PlayerController playerController, int speed)
     {
         Debug.Log("AStarMouseController");
     }
