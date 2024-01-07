@@ -1,7 +1,7 @@
 ﻿public enum ControllType
 {
-    MouseAStar,
+    MouseNavMesh,
     Keyborad,
-    NonControll
+    AIFollower,
 }
 

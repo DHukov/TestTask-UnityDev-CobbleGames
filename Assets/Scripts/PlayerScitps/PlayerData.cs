@@ -8,7 +8,6 @@ public class PlayerData : ScriptableObject
     public int playerHealth;
     public int playerSpeed;
     public int playerRotationSpeed;
-    public int playerId;
 
 
 }

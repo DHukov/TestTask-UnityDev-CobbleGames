@@ -8,11 +8,13 @@ public class DataPersistenceManager : MonoBehaviour
 {
     [Header("File storage Config")]
     [SerializeField] private string _fileName;
-
+    [SerializeField] public bool loadSavesAtStartGame = false;
     public static DataPersistenceManager Instance { get; private set; }
+
+    private GameData _gameData;
     private List<IDataPersistance> _dataPersistances;
-    [SerializeField] private GameData _gameData;
     private FileDataHandler _dataHandler;
+
 
     private void Awake()
     {
@@ -28,7 +30,13 @@ public class DataPersistenceManager : MonoBehaviour
         _dataHandler = new FileDataHandler(Application.persistentDataPath, _fileName);
         _dataPersistances = FindAllDataPersistanceObjects();
         if(_gameData != null)
-        LoadGame();
+        {
+            if (loadSavesAtStartGame)
+            {
+                LoadGame();
+                Debug.Log("Load at start");
+            }
+        }
     }
 
     public void NewGame()
@@ -53,12 +61,12 @@ public class DataPersistenceManager : MonoBehaviour
         if (_gameData == null)
             return;
 
-        FindAllDataPersistanceObjects(); // repeat finding and save everything also with new objects
+        _dataPersistances = FindAllDataPersistanceObjects(); // repeat finding and save everything also with new objects
+
         foreach (var dataPersistanceObject in _dataPersistances)
             dataPersistanceObject.SaveData(ref _gameData);
 
         _dataHandler.Save(_gameData);
-
         Debug.Log("Game Saved");
     }
     private List<IDataPersistance> FindAllDataPersistanceObjects()

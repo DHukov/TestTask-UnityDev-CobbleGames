@@ -1,39 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    //[field: SerializeField] public List<Player> playerList { get; private set; }
     [field: SerializeField] public PlayerController[] playerArray { get; private set; }
-    [field: SerializeField] public PlayerController _currentPlayer { get; private set; }
+    public static PlayerController currentPlayer { get; private set; }
+    private List<IPlayerChanger> _playerChangers;
+    private UIPlayerChanger changer;
 
-    private PlayerChanger _playerChanger;
+    private void Awake()
+    {
+        changer = GetComponent<UIPlayerChanger>();
+        _playerChangers = FindAllPlayerChangers();
+        currentPlayer = playerArray[0];
+
+    }
 
     private void Start()
     {
-        _playerChanger = GetComponent<PlayerChanger>();
-        _playerChanger.OnPlayerChange += PlayerActive;
-        PlayerActive(_currentPlayer);
+        changer.OnPlayerChange += PlayerActive;
+        PlayerActive(currentPlayer); 
+    }
 
+    private void Update()
+    {
+        foreach (var playerChanger in _playerChangers)
+            playerChanger.PlayerSwitch(currentPlayer);
     }
     private void OnDisable()
     {
-        _playerChanger.OnPlayerChange -= PlayerActive;
+        changer.OnPlayerChange -= PlayerActive;
     }
 
     private void PlayerActive(PlayerController activePlayerController)
     {
         if (activePlayerController != null)
-        {
-            _currentPlayer = activePlayerController;
-            _currentPlayer.enabled = true;
-            foreach (var player in playerArray)
-            {
-                if (player != _currentPlayer)
-                    player.enabled = false;
-            }
-            //Debug.Log($"{_currentPlayer.playerData.playerName} activated");
-        }
+            currentPlayer = activePlayerController;
+    }
+
+    private List<IPlayerChanger> FindAllPlayerChangers()
+    {
+        IEnumerable<IPlayerChanger> _playerChanger = FindObjectsOfType<MonoBehaviour>().OfType<IPlayerChanger>();
+        return new List<IPlayerChanger>(_playerChanger);
     }
 }

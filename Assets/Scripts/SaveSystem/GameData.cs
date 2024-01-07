@@ -6,8 +6,6 @@ using UnityEngine.UIElements;
 [System.Serializable]
 public class GameData
 {
-    Player player;
-
     public float[] playerPosX;
     public float[] playerPosY;
     public float[] playerPosZ;
@@ -22,13 +20,3 @@ public class GameData
     }
 }
 
-struct Player
-{
-    PlayerController _playerController;
-    //Vector3 playerPosition;
-    public Player(PlayerController playerController)
-    {
-        _playerController = playerController;
-
-    }
-}
