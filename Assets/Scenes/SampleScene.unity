@@ -273,7 +273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fileName: Save
-  loadSavesAtStartGame: 0
+  loadSavesAtStartGame: 1
 --- !u!4 &203491382 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9145467462945649232, guid: dc15f9bae831e884a8f89e92b197bc23,
@@ -400,7 +400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.6627451, g: 0.16470589, b: 0.56078434, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1130,7 +1130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.83921576, g: 0.36862746, b: 0.37647063, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1918,13 +1918,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 900410642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7289e8b9051c96c46b9f00d89428b42c, type: 3}
+  m_Script: {fileID: 11500000, guid: 4d18e56e0b07f9a4eaca548167073f00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerControllers:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  playerOne: {fileID: 203491385}
+  playerTwo: {fileID: 851017641}
+  playerThree: {fileID: 1317559012}
 --- !u!1 &913047639
 GameObject:
   m_ObjectHideFlags: 0
@@ -2522,7 +2521,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.8000001, g: 0.7058824, b: 0.45882356, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -2866,6 +2865,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 2331165641562858003, guid: dc15f9bae831e884a8f89e92b197bc23,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 68e107a45eaae1c428a5b9db75d0ac2c, type: 2}
     - target: {fileID: 5259993454026275799, guid: dc15f9bae831e884a8f89e92b197bc23,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -3364,6 +3368,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 2331165641562858003, guid: dc15f9bae831e884a8f89e92b197bc23,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4bc4e67a62a860e4cbc0c5ca11c32617, type: 2}
     - target: {fileID: 4901915051542379174, guid: dc15f9bae831e884a8f89e92b197bc23,
         type: 3}
       propertyPath: m_StoppingDistance

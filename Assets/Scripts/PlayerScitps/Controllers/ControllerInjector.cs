@@ -1,4 +1,4 @@
-﻿public class Injector
+﻿public class ControllerInjector
 {
     IMoveController moveController;
     public IMoveController Init(ControllType controllType)
@@ -6,10 +6,10 @@
         switch (controllType)
         {
             case ControllType.MouseNavMesh:
-                moveController = new NavMeshController();
+                moveController = new NavMeshPlayerMovementController();
                 return moveController;
             case ControllType.Keyborad:
-                moveController = new KeyboradController();
+                moveController = new KeyboradPlayerMovementController();
                 return moveController;
             case ControllType.AIFollower:
                 moveController = new AIFollowerController();

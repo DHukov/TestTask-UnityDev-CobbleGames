@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public interface IMoveController
+﻿public interface IMoveController
 {
-    void Move(PlayerController playerController, int speed);
+    void Move(PlayerController playerController);
 }

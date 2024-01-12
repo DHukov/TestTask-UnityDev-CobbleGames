@@ -1,48 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviour, IDataPersistance
 {
     [field: SerializeField] public PlayerController[] playerArray { get; private set; }
-    public static PlayerController currentPlayer { get; private set; }
-    private List<IPlayerChanger> _playerChangers;
-    private UIPlayerChanger changer;
+    [field: SerializeField] public static PlayerController currentPlayer { get; private set; }
 
-    private void Awake()
-    {
-        changer = GetComponent<UIPlayerChanger>();
-        _playerChangers = FindAllPlayerChangers();
-        currentPlayer = playerArray[0];
-
-    }
+    public delegate void ActivePlayerHandler(PlayerController playerController);
+    public static ActivePlayerHandler onPlayerChange;
 
     private void Start()
     {
-        changer.OnPlayerChange += PlayerActive;
-        PlayerActive(currentPlayer); 
+        onPlayerChange.Invoke(playerArray[0]);
+    }
+    private void OnEnable()
+    {
+        onPlayerChange += SetCurrentPlayer;
     }
 
-    private void Update()
-    {
-        foreach (var playerChanger in _playerChangers)
-            playerChanger.PlayerSwitch(currentPlayer);
-    }
     private void OnDisable()
     {
-        changer.OnPlayerChange -= PlayerActive;
+        onPlayerChange -= SetCurrentPlayer;
     }
 
-    private void PlayerActive(PlayerController activePlayerController)
+    private void SetCurrentPlayer(PlayerController playerController )
     {
-        if (activePlayerController != null)
-            currentPlayer = activePlayerController;
+        currentPlayer = playerController;
     }
 
-    private List<IPlayerChanger> FindAllPlayerChangers()
+    public void LoadData(GameData gameDate)
     {
-        IEnumerable<IPlayerChanger> _playerChanger = FindObjectsOfType<MonoBehaviour>().OfType<IPlayerChanger>();
-        return new List<IPlayerChanger>(_playerChanger);
+        currentPlayer = playerArray[gameDate.currentPlayerIndex];
+    }
+
+    public void SaveData(ref GameData gameDate)
+    {
+        for (int i = 0; i < playerArray.Length; i++)
+        {
+            if(currentPlayer == playerArray[i])
+            {
+                gameDate.currentPlayerIndex = i;
+                break;
+            }
+        }
     }
 }

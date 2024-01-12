@@ -1,12 +1,11 @@
-using UnityEditor.Rendering.Universal.ShaderGraph;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour, IDataPersistance
 {
-    #region Player Components
+    #region Player Components and References
     private IMoveController _moveController;
-    private Injector _injector;
+    private ControllerInjector _injector;
     private NavMeshAgent _agent;
     #endregion 
 
@@ -16,15 +15,15 @@ public class PlayerController : MonoBehaviour, IDataPersistance
     [field: SerializeField] public PlayerData playerData { get; private set; }
     private int _playerIndex;
     public static int PlayerCount { get; private set; } = -1;
-    private int _playerHealth;
-    private int _playerSpeed;
-    private int _playerRotationSpeed;
+    public int _playerHealth { get; private set; }
+    public int _playerSpeed { get; private set; }
+    public int _playerRotationSpeed { get; private set; }
 
     #endregion
 
     private void Awake()
     {
-        _injector = new Injector();
+        _injector = new ControllerInjector();
         _agent = GetComponent<NavMeshAgent>();
         
         PlayerCount++;       
@@ -38,17 +37,30 @@ public class PlayerController : MonoBehaviour, IDataPersistance
         _agent.speed = _playerSpeed;
     }
 
+    private void OnEnable()
+    {
+        PlayerManager.onPlayerChange += SetControlTypeByCurrentPlayer;
+    }
+
+    private void OnDisable()
+    {
+        PlayerManager.onPlayerChange -= SetControlTypeByCurrentPlayer;
+    }
 
     private void Update()
     {
-        if(this == PlayerManager.currentPlayer)
+        _moveController = _injector.Init(_controllType);
+        _moveController.Move(this);
+    }
+
+    private void SetControlTypeByCurrentPlayer(PlayerController playerController)
+    {
+        if (this == playerController)
             _controllType = ControllType.MouseNavMesh;
         else
             _controllType = ControllType.AIFollower;
-         
-        _moveController = _injector.Init(_controllType);
-        _moveController.Move(this, _playerSpeed);
     }
+
     public void LoadData(GameData gameData)
     {
         transform.position = new Vector3(gameData.playerPosX[_playerIndex], gameData.playerPosY[_playerIndex], gameData.playerPosZ[_playerIndex]);

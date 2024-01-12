@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
-using System.IO.Enumeration;
 
 public class DataPersistenceManager : MonoBehaviour
 {
@@ -18,32 +16,26 @@ public class DataPersistenceManager : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance != null)
-        {
-            Debug.Log("Found more than one Data Persistance Manager");
-            Destroy(gameObject);
-        }
-        Instance = this;
+        if (Instance != null && Instance != this)
+            Destroy(this);
+        else
+            Instance = this;
     }
+
     private void Start()
     {
         _dataHandler = new FileDataHandler(Application.persistentDataPath, _fileName);
         _dataPersistances = FindAllDataPersistanceObjects();
-        if(_gameData != null)
-        {
-            if (loadSavesAtStartGame)
-            {
-                LoadGame();
-                Debug.Log("Load at start");
-            }
-        }
+
+        if (loadSavesAtStartGame)
+            LoadGame();
     }
 
     public void NewGame()
     {
         _gameData = new GameData();
-        Debug.Log("New game created");
     }
+
     public void LoadGame()
     {
         if (_gameData == null)
@@ -53,21 +45,19 @@ public class DataPersistenceManager : MonoBehaviour
 
         foreach (var dataPersistanceObject in _dataPersistances)
             dataPersistanceObject.LoadData(_gameData);
-
-        Debug.Log("Game loaded");
     }
+
     public void SaveGame()
     {
         if (_gameData == null)
             return;
 
-        _dataPersistances = FindAllDataPersistanceObjects(); // repeat finding and save everything also with new objects
+        _dataPersistances = FindAllDataPersistanceObjects(); // repeat finding and save all objects
 
         foreach (var dataPersistanceObject in _dataPersistances)
             dataPersistanceObject.SaveData(ref _gameData);
 
         _dataHandler.Save(_gameData);
-        Debug.Log("Game Saved");
     }
     private List<IDataPersistance> FindAllDataPersistanceObjects()
     {
